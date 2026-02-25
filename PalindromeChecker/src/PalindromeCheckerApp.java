@@ -1,60 +1,42 @@
-/**
- * =========================================================
- * MAIN CLASS - PalindromeCheckerApp
- * =========================================================
- *
- * Use Case 3: Reverse String Based Palindrome Check
- *
- * Description:
- * This class checks whether a string is a palindrome
- * by reversing the string and comparing it with
- * the original value.
- *
- * At this stage, the application:
- * - Iterates the string in reverse order
- * - Builds a reversed version
- * - Compares original and reversed strings
- * - Displays the validation result
- *
- * This introduces transformation-based validation.
- *
- * @author Developer
- * @version 3.0
- */
-
-import java.util.Scanner;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
-    /**
-     * Application entry point for UC3.
-     *
-     * @param args Command-line arguments
-     */
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // Define the input string
+        String input = "civic";
 
-        System.out.print("Enter a string: ");
-        String input = scanner.nextLine();
+        // Create Queue (FIFO)
+        Queue<Character> queue = new LinkedList<>();
 
-        String reversed = "";
+        // Create Stack (LIFO)
+        Stack<Character> stack = new Stack<>();
 
-        // Iterate from the last character to the first
-        for (int i = input.length() - 1; i >= 0; i--) {
-            reversed += input.charAt(i);
+        // Insert characters into both structures
+        for (char c : input.toCharArray()) {
+            queue.add(c);
+            stack.push(c);
         }
 
-        System.out.println("Original String : " + input);
-        System.out.println("Reversed String : " + reversed);
+        // Assume palindrome
+        boolean isPalindrome = true;
 
-        // Compare original and reversed strings
-        if (input.equals(reversed)) {
-            System.out.println("Result : The given string is a Palindrome.");
-        } else {
-            System.out.println("Result : The given string is NOT a Palindrome.");
+        // Compare until queue becomes empty
+        while (!queue.isEmpty()) {
+
+            char fromQueue = queue.remove();
+            char fromStack = stack.pop();
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        scanner.close();
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
