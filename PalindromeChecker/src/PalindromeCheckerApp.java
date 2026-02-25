@@ -1,60 +1,65 @@
 /**
  * =========================================================
- * MAIN CLASS - PalindromeCheckerApp
+ * MAIN CLASS - UseCase8PalindromeCheckerApp
  * =========================================================
  *
- * Use Case 3: Reverse String Based Palindrome Check
+ * Use Case 8: Linked List Based Palindrome Checker
  *
  * Description:
  * This class checks whether a string is a palindrome
- * by reversing the string and comparing it with
- * the original value.
+ * using a LinkedList.
  *
- * At this stage, the application:
- * - Iterates the string in reverse order
- * - Builds a reversed version
- * - Compares original and reversed strings
- * - Displays the validation result
+ * Characters are added to the list and then compared
+ * by removing elements from both ends:
  *
- * This introduces transformation-based validation.
+ * - removeFirst()
+ * - removeLast()
+ *
+ * This demonstrates how LinkedList supports
+ * double-ended operations for symmetric validation.
  *
  * @author Developer
- * @version 3.0
+ * @version 8.0
  */
 
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC3.
+     * Application entry point for UC8.
      *
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // Define the input string
+        String input = "level";
 
-        System.out.print("Enter a string: ");
-        String input = scanner.nextLine();
+        // Create a LinkedList to store characters
+        LinkedList<Character> list = new LinkedList<>();
 
-        String reversed = "";
-
-        // Iterate from the last character to the first
-        for (int i = input.length() - 1; i >= 0; i--) {
-            reversed += input.charAt(i);
+        // Add each character to the linked list
+        for (char c : input.toCharArray()) {
+            list.add(c);
         }
 
-        System.out.println("Original String : " + input);
-        System.out.println("Reversed String : " + reversed);
+        // Flag to track palindrome state
+        boolean isPalindrome = true;
 
-        // Compare original and reversed strings
-        if (input.equals(reversed)) {
-            System.out.println("Result : The given string is a Palindrome.");
-        } else {
-            System.out.println("Result : The given string is NOT a Palindrome.");
+        // Compare until only one or zero elements remain
+        while (list.size() > 1) {
+
+            char first = list.removeFirst();
+            char last = list.removeLast();
+
+            if (first != last) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        scanner.close();
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
