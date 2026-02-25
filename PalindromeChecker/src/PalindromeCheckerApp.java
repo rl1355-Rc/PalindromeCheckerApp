@@ -1,60 +1,69 @@
 /**
  * =========================================================
- * MAIN CLASS - PalindromeCheckerApp
+ * MAIN CLASS - UseCase7PalindromeCheckerApp
  * =========================================================
  *
- * Use Case 3: Reverse String Based Palindrome Check
+ * Use Case 7: Deque Based Optimized Palindrome Checker
  *
  * Description:
- * This class checks whether a string is a palindrome
- * by reversing the string and comparing it with
- * the original value.
+ * This class validates a palindrome using a Deque
+ * (Double Ended Queue).
  *
- * At this stage, the application:
- * - Iterates the string in reverse order
- * - Builds a reversed version
- * - Compares original and reversed strings
- * - Displays the validation result
+ * Characters are inserted into the deque and then
+ * compared by removing elements from both ends:
  *
- * This introduces transformation-based validation.
+ * - removeFirst()
+ * - removeLast()
+ *
+ * This avoids reversing the string and provides an
+ * efficient front-to-back comparison approach.
+ *
+ * This use case demonstrates optimal bidirectional
+ * traversal using Deque.
  *
  * @author Developer
- * @version 3.0
+ * @version 7.0
  */
 
-import java.util.Scanner;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC3.
+     * Application entry point for UC7.
      *
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+        // Define the input string
+        String input = "refer";
 
-        System.out.print("Enter a string: ");
-        String input = scanner.nextLine();
+        // Create a Deque to store characters
+        Deque<Character> deque = new ArrayDeque<>();
 
-        String reversed = "";
-
-        // Iterate from the last character to the first
-        for (int i = input.length() - 1; i >= 0; i--) {
-            reversed += input.charAt(i);
+        // Add each character to the deque
+        for (char c : input.toCharArray()) {
+            deque.addLast(c);
         }
 
-        System.out.println("Original String : " + input);
-        System.out.println("Reversed String : " + reversed);
+        // Flag to track palindrome result
+        boolean isPalindrome = true;
 
-        // Compare original and reversed strings
-        if (input.equals(reversed)) {
-            System.out.println("Result : The given string is a Palindrome.");
-        } else {
-            System.out.println("Result : The given string is NOT a Palindrome.");
+        // Continue comparison while more than one element exists
+        while (deque.size() > 1) {
+
+            char front = deque.removeFirst();
+            char rear = deque.removeLast();
+
+            if (front != rear) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        scanner.close();
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
