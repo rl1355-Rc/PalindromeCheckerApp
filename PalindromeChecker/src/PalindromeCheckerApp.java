@@ -1,4 +1,71 @@
+import java.util.Stack;
+import java.util.Deque;
+import java.util.ArrayDeque;
+
+public class PalindromeCheckerApp {
+
+    // Method 1: Two-pointer approach
+    public static boolean twoPointerCheck(String input) {
+
+        String str = input.replaceAll("\\s+", "").toLowerCase();
+
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+    // Method 2: Stack approach
+    public static boolean stackCheck(String input) {
+
+        String str = input.replaceAll("\\s+", "").toLowerCase();
+        Stack<Character> stack = new Stack<>();
+
+        for (char c : str.toCharArray()) {
+            stack.push(c);
+        }
+
+        for (char c : str.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Method 3: Deque approach
+    public static boolean dequeCheck(String input) {
+
+        String str = input.replaceAll("\\s+", "").toLowerCase();
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (char c : str.toCharArray()) {
+            deque.add(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
 import java.util.Scanner;
+
+/**
+ * =====================================================
+ * MAIN CLASS - UseCase11PalindromeCheckerApp
+ * =====================================================
+ *
+ * Use Case 11: Object-Oriented Palindrome Service
+ *
+ * This class demonstrates palindrome validation using
+ * object-oriented design. The palindrome logic is
+ * encapsulated inside a PalindromeService class.
 import java.util.Stack;
 
 /**
@@ -12,6 +79,10 @@ import java.util.Stack;
 
 public class PalindromeCheckerApp {
 
+    /**
+     * Application entry point for UC11.
+     * Application entry point for UC10.
+     */
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -19,6 +90,44 @@ public class PalindromeCheckerApp {
         System.out.print("Input: ");
         String input = sc.nextLine().toLowerCase();   // convert to lowercase
 
+        // Create service object
+        PalindromeService service = new PalindromeService();
+
+        boolean result = service.checkPalindrome(input);
+
+        System.out.println("Is Palindrome? : " + result);
+
+        sc.close();
+    }
+}
+
+/**
+ * =====================================================
+ * CLASS - PalindromeService
+ * =====================================================
+ *
+ * Service class that contains palindrome logic.
+ */
+class PalindromeService {
+
+    /**
+     * Checks whether the input string is a palindrome.
+     *
+     * @param input Input string
+     * @return true if palindrome, false otherwise
+     */
+    public boolean checkPalindrome(String input) {
+
+        // Initialize pointers
+        int start = 0;
+        int end = input.length() - 1;
+
+        // Compare characters moving inward
+        while (start < end) {
+
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
         // Inject strategy
         PalindromeStrategy strategy = new StackStrategy();
 
@@ -67,5 +176,83 @@ class StackStrategy implements PalindromeStrategy {
         }
 
         return true;
+    }
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a string:");
+        String input = scanner.nextLine();
+
+        // Two Pointer Performance
+        long start1 = System.nanoTime();
+        boolean result1 = twoPointerCheck(input);
+        long end1 = System.nanoTime();
+
+        // Stack Performance
+        long start2 = System.nanoTime();
+        boolean result2 = stackCheck(input);
+        long end2 = System.nanoTime();
+
+        // Deque Performance
+        long start3 = System.nanoTime();
+        boolean result3 = dequeCheck(input);
+        long end3 = System.nanoTime();
+
+        System.out.println("\nResults:");
+
+        System.out.println("Two Pointer Approach: " + result1 +
+                " | Time: " + (end1 - start1) + " ns");
+
+        System.out.println("Stack Approach: " + result2 +
+                " | Time: " + (end2 - start2) + " ns");
+
+        System.out.println("Deque Approach: " + result3 +
+                " | Time: " + (end3 - start3) + " ns");
+
+        scanner.close();
+public class PalindromeCheckerApp {
+
+    /**
+     * Application entry point for UC9.
+     */
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Input : ");
+        String input = sc.nextLine();
+
+        boolean result = check(input, 0, input.length() - 1);
+
+        System.out.println("Is Palindrome? : " + result);
+
+        sc.close();
+    }
+
+    /**
+     * Recursively checks whether a string is palindrome.
+     *
+     * @param s Input string
+     * @param start Starting index
+     * @param end Ending index
+     * @return true if palindrome, otherwise false
+     */
+    private static boolean check(String s, int start, int end) {
+
+        // Base case: if pointers cross
+        if (start >= end) {
+            return true;
+        }
+
+        // If characters mismatch
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
+        }
+
+        return true;
+        // Recursive call
+        return check(s, start + 1, end - 1);
     }
 }
