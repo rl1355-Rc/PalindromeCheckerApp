@@ -55,6 +55,17 @@ public class PalindromeCheckerApp {
         while (deque.size() > 1) {
             if (deque.removeFirst() != deque.removeLast()) {
 import java.util.Scanner;
+
+/**
+ * =====================================================
+ * MAIN CLASS - UseCase11PalindromeCheckerApp
+ * =====================================================
+ *
+ * Use Case 11: Object-Oriented Palindrome Service
+ *
+ * This class demonstrates palindrome validation using
+ * object-oriented design. The palindrome logic is
+ * encapsulated inside a PalindromeService class.
 import java.util.Stack;
 
 /**
@@ -90,6 +101,7 @@ import java.util.Stack;
 public class PalindromeCheckerApp {
 
     /**
+     * Application entry point for UC11.
      * Application entry point for UC10.
      */
     public static void main(String[] args) {
@@ -99,6 +111,44 @@ public class PalindromeCheckerApp {
         System.out.print("Input : ");
         String input = sc.nextLine();
 
+        // Create service object
+        PalindromeService service = new PalindromeService();
+
+        boolean result = service.checkPalindrome(input);
+
+        System.out.println("Is Palindrome? : " + result);
+
+        sc.close();
+    }
+}
+
+/**
+ * =====================================================
+ * CLASS - PalindromeService
+ * =====================================================
+ *
+ * Service class that contains palindrome logic.
+ */
+class PalindromeService {
+
+    /**
+     * Checks whether the input string is a palindrome.
+     *
+     * @param input Input string
+     * @return true if palindrome, false otherwise
+     */
+    public boolean checkPalindrome(String input) {
+
+        // Initialize pointers
+        int start = 0;
+        int end = input.length() - 1;
+
+        // Compare characters moving inward
+        while (start < end) {
+
+            if (input.charAt(start) != input.charAt(end)) {
+                return false;
+            }
         // Inject strategy
         PalindromeStrategy strategy = new StackStrategy();
 
@@ -256,6 +306,7 @@ public class PalindromeCheckerApp {
             return false;
         }
 
+        return true;
         // Recursive call
         return check(s, start + 1, end - 1);
     }
